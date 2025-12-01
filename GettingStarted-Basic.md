@@ -13,7 +13,7 @@ On your local machine:
 The meta script to setup the macos machine from a vanilla OS can be run using the following command:
 
 ```zsh
-export GH_USERNAME="vraravam" DOTFILES_BRANCH="master" HOMEBREW_BASE_INSTALL="true"; curl --retry 3 --retry-delay 5 -fsSL "https://raw.githubusercontent.com/${GH_USERNAME}/dotfiles/refs/heads/${DOTFILES_BRANCH}/scripts/fresh-install-of-osx.sh" | zsh; unset HOMEBREW_BASE_INSTALL
+export GH_USERNAME="balaprojects" DOTFILES_BRANCH="master" HOMEBREW_BASE_INSTALL="true"; curl --retry 3 --retry-delay 5 -fsSL "https://raw.githubusercontent.com/${GH_USERNAME}/dotfiles/refs/heads/${DOTFILES_BRANCH}/scripts/fresh-install-of-osx.sh" | zsh; unset HOMEBREW_BASE_INSTALL
 ```
 
 This script can be run in an idempotent manner, and will setup [oh-my-zsh](https://ohmyz.sh/), [homebrew](https://brew.sh), the dotfiles (this repo), etc.
@@ -21,7 +21,7 @@ All these scripts are optimized for fast loading of the shell so that the user c
 
 **Important Note** After the above script has completed running successfully, you need to do the following *manually*
 
-1. Use [this gist as a template](https://gist.github.com/vraravam/e9676759db46950e1fd817e49e513394) to create equivalent configuration files with your logins and make corresponding changes in `files/--HOME--/.gitconfig` to reflect the same
+1. Use [this gist as a template](https://gist.github.com/balaprojects/e9676759db46950e1fd817e49e513394) to create equivalent configuration files with your logins and make corresponding changes in `files/--HOME--/.gitconfig` to reflect the same
 2. Open the `Terminal` application.
    * Goto Preferences > Profiles > Basic > Text (and change the font to 'MesloLGS Nerd Font')
 3. Open the `iTerm2` application.
