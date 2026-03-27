@@ -1,0 +1,212 @@
+# ============================================================
+#  .gitconfig — Developer-Optimized Git Configuration
+#  Place this file at: ~/.gitconfig
+# ============================================================
+
+[user]
+	name  = bala.r
+	email = bala.emailme@gmail.com
+	# signingkey = YOUR_GPG_KEY_ID   # Uncomment if using GPG signing
+
+[core]
+	editor       = code --wait        # VS Code; use: vim, nano, nvim, etc.
+	autocrlf     = input              # LF on commit; no conversion on checkout (Linux/macOS)
+	# autocrlf   = true               # Use this on Windows instead
+	whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	excludesfile = ~/.gitignore_global
+	pager        = delta              # Beautiful diffs — install: https://github.com/dandavison/delta
+	# pager      = less               # Fallback if delta is not installed
+	ignorecase   = false              # Case-sensitive file tracking (safer on macOS/Linux)
+	precomposeunicode = true          # macOS: normalize Unicode in filenames
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true                     # Always rebase on pull (cleaner history)
+
+[push]
+	default        = current          # Push current branch to same-name remote branch
+	autoSetupRemote = true            # Auto-track remote on first push (Git 2.37+)
+
+[fetch]
+	prune     = true                  # Auto-remove stale remote-tracking branches
+	pruneTags = true                  # Also prune stale tags
+
+[rebase]
+	autoStash    = true               # Stash dirty working tree before rebase, pop after
+	autoSquash   = true               # Honour fixup!/squash! commit prefixes automatically
+	updateRefs   = true               # Update dependent branches when rebasing a stack (Git 2.38+)
+
+[merge]
+	conflictstyle = zdiff3            # Adds "base" context to conflict markers (Git 2.35+)
+	# conflictstyle = diff3           # Fallback for older Git versions
+	tool = code                       # VS Code as merge tool
+
+[mergetool "code"]
+	cmd = code --wait $MERGED
+
+[diff]
+	algorithm    = histogram          # Best general-purpose diff algorithm
+	colorMoved   = default            # Highlight moved lines differently
+	mnemonicPrefix = true             # Use i/w/c/o instead of a/b in diff prefixes
+	renames      = copies             # Detect both renames and copies
+
+[delta]
+	navigate    = true                # Use n/N to move between diff sections
+	line-numbers = true
+	side-by-side = true
+	syntax-theme = Dracula            # Change to your preferred theme
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current  = yellow bold
+	local    = green
+	remote   = cyan
+
+[color "diff"]
+	meta       = yellow bold
+	frag       = magenta bold
+	old        = red bold
+	new        = green bold
+	whitespace = red reverse
+
+[color "status"]
+	added     = green bold
+	changed   = yellow bold
+	untracked = cyan bold
+
+[commit]
+	verbose  = true                   # Show full diff in commit message editor
+	# gpgsign = true                  # Uncomment to sign all commits with GPG
+
+[tag]
+	# gpgSign = true                  # Uncomment to sign all tags with GPG
+	sort = version:refname            # Sort tags by version number
+
+[log]
+	date    = iso                     # ISO 8601 timestamps
+	follow  = true                    # Follow file renames in git log
+
+[status]
+	showUntrackedFiles = all          # Show all untracked files, not just dirs
+
+[rerere]
+	enabled = true                    # Remember conflict resolutions for reuse
+	autoupdate = true
+
+[help]
+	autocorrect = prompt              # Suggest corrections; ask before running (Git 2.39+)
+	# autocorrect = 20                # Auto-run after 2s (older Git versions)
+
+[credential]
+	helper = osxkeychain              # macOS Keychain
+	# helper = manager               # Git Credential Manager (Windows/cross-platform)
+	# helper = store                 # Plain-text fallback (not recommended for security)
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/   # Use SSH instead of HTTPS for GitHub
+
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/   # Use SSH instead of HTTPS for GitLab
+
+# ============================================================
+#  ALIASES — Shortcuts and Power Commands
+# ============================================================
+
+[alias]
+	# ── Basics ──────────────────────────────────────────────
+	s      = status -sb                         # Short + branch status
+	st     = status
+	cl     = clone --recurse-submodules         # Clone with submodules
+	co     = checkout
+	sw     = switch
+	br     = branch -vv                         # Verbose branch list (tracks remotes)
+	bra    = branch -avv                        # All branches (local + remote)
+	nuke   = branch -D                          # Force-delete a branch
+
+	# ── Staging & Committing ────────────────────────────────
+	a      = add
+	aa     = add --all
+	ap     = add --patch                        # Interactive hunk staging
+	c      = commit
+	cm     = commit -m
+	ca     = commit --amend                     # Amend last commit (keep message)
+	cam    = commit --amend -m                  # Amend last commit with new message
+	cane   = commit --amend --no-edit           # Amend without changing message
+	fixup  = commit --fixup                     # Mark commit as fixup for autosquash
+
+	# ── Pushing & Pulling ───────────────────────────────────
+	p      = push
+	pf     = push --force-with-lease            # Safe force-push
+	pu     = push -u origin HEAD                # Push and set upstream in one step
+	pl     = pull
+	f      = fetch --all --prune
+
+	# ── Stashing ────────────────────────────────────────────
+	ss     = stash push -m                      # Stash with a message: git ss "wip: thing"
+	sl     = stash list
+	sp     = stash pop
+	sa     = stash apply
+	sd     = stash drop
+
+	# ── Diff & Inspection ───────────────────────────────────
+	d      = diff
+	ds     = diff --staged                      # Diff staged changes
+	dw     = diff --word-diff                   # Word-level diff
+	dc     = diff --cached
+	dt     = difftool
+
+	# ── Log & History ───────────────────────────────────────
+	lg     = log --graph --pretty=format:'%C(bold blue)%h%C(reset) %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit
+	lga    = log --graph --pretty=format:'%C(bold blue)%h%C(reset) %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --all
+	ll     = log --oneline -20                  # Last 20 commits, compact
+	lf     = log --follow -p --                 # Full patch history for a file
+	who    = shortlog -sn --no-merges           # Contributor summary
+	last   = log -1 HEAD --stat                 # Show last commit with stats
+	today  = log --since=midnight --oneline --author="$(git config user.email)"
+
+	# ── Branch Workflow ─────────────────────────────────────
+	main   = !git checkout main && git pull     # Jump to main and update
+	gone   = !git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
+	                                            # Delete local branches whose remote is gone
+
+	# ── Reset & Undo ────────────────────────────────────────
+	undo   = reset HEAD~1 --mixed               # Undo last commit, keep changes staged
+	unstage = reset HEAD --                     # Unstage file(s)
+	discard = checkout --                       # Discard working tree changes for file(s)
+	wipe   = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+	                                            # Nuclear undo — wipes everything cleanly
+
+	# ── Tags ────────────────────────────────────────────────
+	tags   = tag -l
+	lasttag = describe --tags --abbrev=0
+
+	# ── Utilities ───────────────────────────────────────────
+	aliases  = config --get-regexp alias        # List all aliases
+	root     = rev-parse --show-toplevel        # Show repo root directory
+	exec     = "!exec "                         # Run shell cmd from any subdirectory
+	authors  = "!git log --format='%aN <%aE>' | sort -u"
+	filecount = "!git ls-files | wc -l"
+	ignored  = ls-files --others --ignored --exclude-standard
+	conflicts = diff --name-only --diff-filter=U  # List files with merge conflicts
+
+# ============================================================
+#  CONDITIONAL INCLUDES — Per-directory config overrides
+#  Uncomment and adjust paths to use
+# ============================================================
+
+# [includeIf "gitdir:~/work/"]
+# 	path = ~/.gitconfig-work            # Work identity (different email, signing key)
+
+# [includeIf "gitdir:~/personal/"]
+# 	path = ~/.gitconfig-personal
+
+# ============================================================
+#  NOTES
+#  • Install delta for beautiful diffs: https://dandavison.github.io/delta
+#  • Install git-credential-manager for cross-platform auth
+#  • Create ~/.gitignore_global for OS/editor ignores (DS_Store, .idea, etc.)
+# ============================================================
