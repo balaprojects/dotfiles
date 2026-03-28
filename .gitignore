@@ -1,0 +1,14 @@
+# ~/.dotfiles/.gitignore
+
+.env
+.env.*
+.zsh_history
+.ssh/
+.aws/
+.netrc
+*.pem
+*.key
+*_rsa
+*_rsa.pub
+*.p12
+.DS_Store

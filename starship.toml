@@ -1,0 +1,86 @@
+# ~/.dotfiles/starship.toml
+
+# Overall format — what shows on prompt
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$ruby\
+$java\
+$golang\
+$rust\
+$elixir\
+$docker_context\
+$line_break\
+$character"""
+
+# OS icon
+[os]
+disabled = false
+
+# Current directory
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+
+# Git branch
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+# Git status
+[git_status]
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "!${count}"
+untracked = "?${count}"
+staged = "+${count}"
+style = "bold yellow"
+
+# Language versions — shows only in relevant projects
+[nodejs]
+symbol = " "
+style = "bold green"
+
+[python]
+symbol = " "
+style = "bold yellow"
+
+[ruby]
+symbol = " "
+style = "bold red"
+
+[java]
+symbol = " "
+style = "bold red"
+
+[golang]
+symbol = " "
+style = "bold cyan"
+
+[rust]
+symbol = " "
+style = "bold orange"
+
+[elixir]
+symbol = " "
+style = "bold purple"
+
+# Prompt character (green ❯ or red ❯ on error)
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+# Docker context
+[docker_context]
+symbol = " "
+style = "bold blue"
+
+# Command duration (shows if command takes > 2 sec)
+[cmd_duration]
+min_time = 2_000
+format = "took [$duration](bold yellow) "
