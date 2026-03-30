@@ -1,9 +1,6 @@
 # ~/.dotfiles/Brewfile
 
-# ─────────────────────────────────────────
-# TAPS
-# ─────────────────────────────────────────
-tap "homebrew/cask-fonts"
+# Note: homebrew/cask-fonts tap was deprecated — fonts now in Homebrew core directly
 
 
 # ─────────────────────────────────────────
@@ -29,6 +26,7 @@ brew "mas"             # Mac App Store CLI — required for mas installs
 # ─────────────────────────────────────────
 brew "gh"              # GitHub CLI
 brew "git-delta"       # better git diff
+cask "copilot-cli"        # GitHub Copilot in the terminal
 
 
 # ─────────────────────────────────────────
@@ -92,7 +90,6 @@ brew "redis"                   # redis-cli
 brew "httpie"                  # better curl for APIs
 brew "grpcurl"                 # gRPC client
 brew "mkcert"                  # local HTTPS certificates
-brew "ngrok"                   # expose localhost to internet
 
 
 # ─────────────────────────────────────────
@@ -132,8 +129,10 @@ cask "visual-studio-code"
 cask "podman-desktop"          # Podman GUI
 cask "responsively"            # responsive design testing
 cask "insomnia"                # REST/GraphQL API client (free)
+cask "ngrok"                   # expose localhost to internet
 
 # Database GUIs
+cask "tableplus"               # MySQL, Postgres, Redis, Mongo (paid)
 cask "beekeeper-studio"        # open source DB GUI (free alternative)
 cask "another-redis-desktop-manager"  # free Redis GUI
 cask "mongodb-compass"         # MongoDB GUI
@@ -144,11 +143,13 @@ cask "bruno"                   # open source Postman alternative
 # Productivity
 cask "rectangle"               # window manager
 cask "raycast"                 # better Spotlight
+cask "microsoft-teams"         # Microsoft Teams
 
 # Menu Bar (all free)
 cask "stats"                   # CPU, RAM, network, disk in menu bar
 cask "hiddenbar"               # hide unused menu bar icons
 cask "keepingyouawake"         # keep Mac awake (open source)
+# Note: Clocker (multiple time zones in menu bar) is installed via Mac App Store below
 
 # Browser
 cask "arc"                     # best browser for developers (free)
@@ -176,4 +177,5 @@ cask "font-fira-code-nerd-font"        # alternative with ligatures
 # ─────────────────────────────────────────
 # MAC APP STORE
 # ─────────────────────────────────────────
-mas "Pure Paste", id: 1611378436       # always paste as plain text
+mas "Amphetamine", id: 937984704       # keep Mac awake
+mas "Clocker", id: 1056643111          # multiple time zones in menu bar

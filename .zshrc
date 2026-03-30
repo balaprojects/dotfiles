@@ -32,7 +32,12 @@ plugins=(
   z                         # zoxide alternative (built-in)
 )
 
-source $ZSH/oh-my-zsh.sh
+# Load Oh My Zsh only if installed
+if [ -f "$ZSH/oh-my-zsh.sh" ]; then
+  source $ZSH/oh-my-zsh.sh
+else
+  echo "⚠ Oh My Zsh not installed — run: ./setup.sh"
+fi
 
 
 # ─────────────────────────────────────────
@@ -176,3 +181,4 @@ versions() { asdf current; }
 
 # Quick git commit + push
 gacp() { git add -A && git commit -m "$1" && git push; }
+\export GPG_TTY=$(tty)
