@@ -12,5 +12,7 @@
   "github-enterprise.uri": "https://mercedes-benz.ghe.com/",
   "github.copilot.advanced": {
     "authProvider": "github-enterprise"
-  }
+  },
+  "git.autofetch": true,
+  "git.confirmSync": false
 }

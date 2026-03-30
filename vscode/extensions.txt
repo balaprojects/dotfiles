@@ -1,0 +1,103 @@
+# VS Code Extensions
+# One extension ID per line. Lines starting with # are comments.
+# Install all via: setup.sh (Step 10) or manually: cat extensions.txt | grep -v '^#' | xargs -L1 code --install-extension
+
+
+# ─────────────────────────────────────────
+# GENERAL / PRODUCTIVITY
+# ─────────────────────────────────────────
+eamodio.gitlens
+github.copilot
+github.copilot-chat
+streetsidesoftware.code-spell-checker
+christian-kohler.path-intellisense
+usernamehw.errorlens
+gruntfuggly.todo-tree
+editorconfig.editorconfig
+mikestead.dotenv
+
+
+# ─────────────────────────────────────────
+# FORMATTING & LINTING
+# ─────────────────────────────────────────
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+
+
+# ─────────────────────────────────────────
+# PYTHON
+# ─────────────────────────────────────────
+ms-python.python
+ms-python.vscode-pylance
+ms-python.debugpy
+charliermarsh.ruff
+littlefoxteam.vscode-python-test-adapter
+
+
+# ─────────────────────────────────────────
+# JAVASCRIPT / TYPESCRIPT
+# ─────────────────────────────────────────
+# (covered by ESLint + Prettier above)
+
+
+# ─────────────────────────────────────────
+# GO
+# ─────────────────────────────────────────
+golang.go
+
+
+# ─────────────────────────────────────────
+# RUST
+# ─────────────────────────────────────────
+rust-lang.rust-analyzer
+tamasfe.even-better-toml
+
+
+# ─────────────────────────────────────────
+# RUBY
+# ─────────────────────────────────────────
+rebornix.ruby
+
+
+# ─────────────────────────────────────────
+# ELIXIR / ERLANG
+# ─────────────────────────────────────────
+jakebecker.elixir-ls
+
+
+# ─────────────────────────────────────────
+# JAVA / SCALA
+# ─────────────────────────────────────────
+vscjava.vscode-java-pack
+scala-lang.scala
+
+
+# ─────────────────────────────────────────
+# DATA FORMATS
+# ─────────────────────────────────────────
+redhat.vscode-yaml
+redhat.vscode-xml
+
+
+# ─────────────────────────────────────────
+# INFRASTRUCTURE / DEVOPS
+# ─────────────────────────────────────────
+ms-azuretools.vscode-docker
+hashicorp.terraform
+ms-kubernetes-tools.vscode-kubernetes-tools
+ms-vscode.vscode-node-azure-pack
+
+
+# ─────────────────────────────────────────
+# DATABASE
+# ─────────────────────────────────────────
+mtxr.sqltools
+mtxr.sqltools-driver-pg
+mtxr.sqltools-driver-mysql
+
+
+# ─────────────────────────────────────────
+# THEME / UI
+# ─────────────────────────────────────────
+pkief.material-icon-theme
+zhuangtongfa.material-theme

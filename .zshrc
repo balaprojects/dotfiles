@@ -54,6 +54,12 @@ eval "$(/opt/homebrew/bin/brew shellenv)"  # Apple Silicon
 
 
 # ─────────────────────────────────────────
+# UV TOOLS
+# ─────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+
+# ─────────────────────────────────────────
 # STARSHIP PROMPT
 # (must be after oh-my-zsh)
 # ─────────────────────────────────────────
@@ -69,9 +75,8 @@ alias ll="lsd -la"
 alias lt="lsd --tree"
 alias la="lsd -A"
 
-# zoxide
-eval "$(zoxide init zsh)"
-alias cd="z"
+# zoxide (replaces cd, with filesystem completion for unknown dirs)
+eval "$(zoxide init zsh --cmd cd)"
 
 # thefuck
 eval "$(thefuck --alias)"

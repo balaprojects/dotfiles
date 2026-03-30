@@ -73,6 +73,7 @@ brew "kubernetes-cli"          # kubectl
 brew "helm"                    # Kubernetes package manager
 brew "terraform"               # Infrastructure as code
 brew "awscli"                  # AWS CLI
+brew "azure-cli"               # Azure CLI
 
 
 # ─────────────────────────────────────────

@@ -1,6 +1,8 @@
 #!/bin/bash
 # ~/.dotfiles/setup.sh
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # ─────────────────────────────────────────
 # COLORS & HELPERS
 # ─────────────────────────────────────────
@@ -76,16 +78,16 @@ fi
 # ─────────────────────────────────────────
 log "STEP 2/12 — Installing packages from Brewfile"
 info "This is the longest step — installing all apps and tools"
-info "Brewfile location: ~/.dotfiles/Brewfile"
+info "Brewfile location: $SCRIPT_DIR/Brewfile"
 echo ""
 
-BREW_COUNT=$(grep -c "^brew " ~/.dotfiles/Brewfile 2>/dev/null || echo "?")
-CASK_COUNT=$(grep -c "^cask " ~/.dotfiles/Brewfile 2>/dev/null || echo "?")
-MAS_COUNT=$(grep -c "^mas " ~/.dotfiles/Brewfile 2>/dev/null || echo "?")
+BREW_COUNT=$(grep -c "^brew " "$SCRIPT_DIR/Brewfile" 2>/dev/null || echo "?")
+CASK_COUNT=$(grep -c "^cask " "$SCRIPT_DIR/Brewfile" 2>/dev/null || echo "?")
+MAS_COUNT=$(grep -c "^mas " "$SCRIPT_DIR/Brewfile" 2>/dev/null || echo "?")
 info "Found: ${BREW_COUNT} brew packages, ${CASK_COUNT} casks, ${MAS_COUNT} Mac App Store apps"
 echo ""
 
-if brew bundle --file=~/.dotfiles/Brewfile; then
+if brew bundle --file="$SCRIPT_DIR/Brewfile"; then
   success "All Brewfile packages installed"
 else
   fail "Some Brewfile packages failed — check output above"
@@ -116,11 +118,11 @@ symlink() {
   fi
 }
 
-symlink ~/.dotfiles/.zshrc        ~/.zshrc                 ".zshrc"
-symlink ~/.dotfiles/.gitconfig    ~/.gitconfig             ".gitconfig"
-symlink ~/.dotfiles/Brewfile      ~/.Brewfile              "Brewfile"
-symlink ~/.dotfiles/starship.toml ~/.config/starship.toml "starship.toml"
-symlink ~/.dotfiles/vscode/settings.json \
+symlink "$SCRIPT_DIR/.zshrc"              ~/.zshrc                 ".zshrc"
+symlink "$SCRIPT_DIR/.gitconfig"          ~/.gitconfig             ".gitconfig"
+symlink "$SCRIPT_DIR/Brewfile"            ~/.Brewfile              "Brewfile"
+symlink "$SCRIPT_DIR/starship.toml"       ~/.config/starship.toml  "starship.toml"
+symlink "$SCRIPT_DIR/vscode/settings.json" \
   "$HOME/Library/Application Support/Code/User/settings.json" "VS Code settings.json"
 
 
@@ -196,7 +198,7 @@ else
     success "Oh My Zsh installed"
     # OMZ installer overwrites ~/.zshrc — re-apply our symlink
     info "Re-applying .zshrc symlink (OMZ overwrites it)..."
-    ln -sf ~/.dotfiles/.zshrc ~/.zshrc
+    ln -sf "$SCRIPT_DIR/.zshrc" ~/.zshrc
     success "Symlink restored"
   else
     fail "Oh My Zsh installation failed"
@@ -284,6 +286,7 @@ install_plugin golang  "https://github.com/asdf-community/asdf-golang.git"
 install_plugin rust    "https://github.com/asdf-community/asdf-rust.git"
 install_plugin elixir  "https://github.com/asdf-vm/asdf-elixir.git"
 install_plugin erlang  "https://github.com/asdf-vm/asdf-erlang.git"
+install_plugin uv      "https://github.com/asdf-community/asdf-uv.git"
 
 
 # ─────────────────────────────────────────
@@ -364,6 +367,8 @@ install_and_set_global java     "latest:temurin-21"
 install_and_set_global golang   latest
 install_and_set_global rust     latest
 
+install_and_set_global uv       latest
+
 # Erlang MUST be installed before Elixir
 # Elixir versions are tied to OTP (Erlang) major version
 install_and_set_global erlang latest
@@ -394,6 +399,28 @@ install_and_set_global elixir "$ELIXIR_VERSION"
 info "Reshimming asdf (rebuilding PATH shims)..."
 asdf reshim
 success "asdf reshim complete"
+
+
+# ─────────────────────────────────────────
+# UV TOOLS
+# ─────────────────────────────────────────
+log "STEP 8b/12 — uv tools"
+
+install_uv_tool() {
+  local tool=$1
+  if uv tool list 2>/dev/null | grep -q "^$tool "; then
+    warn "uv tool already installed: $tool — skipping"
+  else
+    info "Installing uv tool: $tool..."
+    if uv tool install "$tool"; then
+      success "Installed: $tool"
+    else
+      fail "Failed to install uv tool: $tool"
+    fi
+  fi
+}
+
+install_uv_tool pre-commit
 
 
 # ─────────────────────────────────────────
@@ -441,52 +468,42 @@ else
   info "Found VS Code: $CODE_VERSION"
   echo ""
 
-  declare -A EXTENSIONS=(
-    ["eamodio.gitlens"]="GitLens"
-    ["github.copilot"]="GitHub Copilot"
-    ["streetsidesoftware.code-spell-checker"]="Spell Checker"
-    ["christian-kohler.path-intellisense"]="Path Intellisense"
-    ["usernamehw.errorlens"]="Error Lens"
-    ["gruntfuggly.todo-tree"]="Todo Tree"
-    ["dbaeumer.vscode-eslint"]="ESLint"
-    ["esbenp.prettier-vscode"]="Prettier"
-    ["ms-python.python"]="Python"
-    ["golang.go"]="Go"
-    ["rust-lang.rust-analyzer"]="Rust Analyzer"
-    ["rebornix.ruby"]="Ruby"
-    ["jakebecker.elixir-ls"]="Elixir LS"
-    ["scala-lang.scala"]="Scala"
-    ["ms-azuretools.vscode-docker"]="Docker/Podman"
-    ["mtxr.sqltools"]="SQLTools"
-    ["pkief.material-icon-theme"]="Material Icons"
-    ["zhuangtongfa.material-theme"]="One Dark Pro"
-  )
+  EXTENSIONS_FILE="$SCRIPT_DIR/vscode/extensions.txt"
+  if [ ! -f "$EXTENSIONS_FILE" ]; then
+    warn "Extensions file not found: $EXTENSIONS_FILE — skipping"
+  else
+    info "Reading extensions from vscode/extensions.txt"
+    echo ""
 
-  INSTALLED=0
-  SKIPPED=0
-  FAILED=0
+    INSTALLED=0
+    SKIPPED=0
+    FAILED=0
 
-  INSTALLED_EXTS=$(code --list-extensions 2>/dev/null | tr '[:upper:]' '[:lower:]')
+    INSTALLED_EXTS=$(code --list-extensions 2>/dev/null | tr '[:upper:]' '[:lower:]')
 
-  for ext in "${!EXTENSIONS[@]}"; do
-    name="${EXTENSIONS[$ext]}"
-    if echo "$INSTALLED_EXTS" | grep -q "^${ext,,}$"; then
-      warn "Already installed: $name — skipping"
-      ((SKIPPED++))
-    else
-      info "Installing: $name ($ext)..."
-      if code --install-extension "$ext" &>/dev/null; then
-        success "$name"
-        ((INSTALLED++))
+    while IFS= read -r line; do
+      # Skip blank lines and comments
+      [[ -z "$line" || "$line" == \#* ]] && continue
+
+      ext="$line"
+      if echo "$INSTALLED_EXTS" | grep -qi "^${ext}$"; then
+        warn "Already installed: $ext — skipping"
+        ((SKIPPED++))
       else
-        warn "Failed: $name"
-        ((FAILED++))
+        info "Installing: $ext..."
+        if code --install-extension "$ext" &>/dev/null; then
+          success "$ext"
+          ((INSTALLED++))
+        else
+          warn "Failed: $ext"
+          ((FAILED++))
+        fi
       fi
-    fi
-  done
+    done < "$EXTENSIONS_FILE"
 
-  echo ""
-  success "VS Code: $INSTALLED installed, $SKIPPED skipped, $FAILED failed"
+    echo ""
+    success "VS Code: $INSTALLED installed, $SKIPPED skipped, $FAILED failed"
+  fi
 fi
 
 
@@ -499,10 +516,10 @@ if command -v gpg &>/dev/null; then
   GPG_VERSION=$(gpg --version | head -1)
   success "GPG available — $GPG_VERSION"
 
-  if ! grep -q "GPG_TTY" ~/.dotfiles/.zshrc 2>/dev/null; then
-    printf '\nexport GPG_TTY=$(tty)\n' >> ~/.dotfiles/.zshrc
+  if ! grep -q "GPG_TTY" "$SCRIPT_DIR/.zshrc" 2>/dev/null; then
+    printf '\nexport GPG_TTY=$(tty)\n' >> "$SCRIPT_DIR/.zshrc"
     # Fix any accidental 'nexport' typo
-    sed -i '' 's/nexport/export/g' ~/.dotfiles/.zshrc
+    sed -i '' 's/nexport/export/g' "$SCRIPT_DIR/.zshrc"
     success "Added GPG_TTY to .zshrc"
   else
     warn "GPG_TTY already in .zshrc — skipping"
