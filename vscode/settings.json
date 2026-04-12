@@ -14,5 +14,17 @@
     "authProvider": "github-enterprise"
   },
   "git.autofetch": true,
-  "git.confirmSync": false
+  "git.confirmSync": false,
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "redhat.telemetry.enabled": true,
+  "chat.viewSessions.orientation": "stacked",
+  "chat.hookFilesLocations": {
+    ".github/hooks": true,
+    ".claude/settings.local.json": true,
+    ".claude/settings.json": true,
+    "~/.copilot/hooks": true,
+    "~/.claude/settings.json": true,
+    "~/.agents/hooks": true
+  }
 }

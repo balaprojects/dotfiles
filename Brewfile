@@ -127,6 +127,7 @@ cask "warp"                  # AI-powered modern terminal
 
 # Development
 cask "visual-studio-code"
+cask "intellij-idea"           # IntelliJ IDEA
 cask "podman-desktop"          # Podman GUI
 cask "responsively"            # responsive design testing
 cask "insomnia"                # REST/GraphQL API client (free)
@@ -145,6 +146,7 @@ cask "bruno"                   # open source Postman alternative
 cask "rectangle"               # window manager
 cask "raycast"                 # better Spotlight
 cask "microsoft-teams"         # Microsoft Teams
+cask "microsoft-outlook"       # Microsoft Outlook
 
 # Menu Bar (all free)
 cask "stats"                   # CPU, RAM, network, disk in menu bar
