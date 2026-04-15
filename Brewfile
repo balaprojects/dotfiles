@@ -147,6 +147,7 @@ cask "rectangle"               # window manager
 cask "raycast"                 # better Spotlight
 cask "microsoft-teams"         # Microsoft Teams
 cask "microsoft-outlook"       # Microsoft Outlook
+cask "zoom"                    # Video conferencing
 
 # Menu Bar (all free)
 cask "stats"                   # CPU, RAM, network, disk in menu bar
