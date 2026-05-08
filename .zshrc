@@ -187,3 +187,6 @@ versions() { asdf current; }
 # Quick git commit + push
 gacp() { git add -A && git commit -m "$1" && git push; }
 \export GPG_TTY=$(tty)
+
+
+export PATH=$PATH:$(go env GOBIN)
