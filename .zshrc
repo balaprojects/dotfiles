@@ -50,7 +50,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"  # Apple Silicon
 # ─────────────────────────────────────────
 # ASDF
 # ─────────────────────────────────────────
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+export PATH="$(brew --prefix)/bin:$PATH"
 
 
 # ─────────────────────────────────────────
