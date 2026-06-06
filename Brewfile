@@ -19,6 +19,7 @@ brew "fzf"             # fuzzy finder
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "mas"             # Mac App Store CLI — required for mas installs
+brew "uv"
 
 
 # ─────────────────────────────────────────
@@ -71,7 +72,6 @@ brew "podman"                  # Docker alternative
 brew "podman-compose"          # docker-compose alternative
 brew "kubernetes-cli"          # kubectl
 brew "helm"                    # Kubernetes package manager
-brew "terraform"               # Infrastructure as code
 brew "awscli"                  # AWS CLI
 brew "azure-cli"               # Azure CLI
 
