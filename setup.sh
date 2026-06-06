@@ -242,18 +242,11 @@ clone_plugin "zsh-completions" \
 # ─────────────────────────────────────────
 log "STEP 6/12 — asdf version manager"
 
-if [[ $(uname -m) == "arm64" ]]; then
-  ASDF_PATH="/opt/homebrew/opt/asdf/libexec/asdf.sh"
-else
-  ASDF_PATH="/usr/local/opt/asdf/libexec/asdf.sh"
-fi
-
-if [ -f "$ASDF_PATH" ]; then
-  . "$ASDF_PATH"
+if command -v asdf >/dev/null 2>&1; then
   ASDF_VERSION=$(asdf version)
   success "asdf loaded — $ASDF_VERSION"
 else
-  fail "asdf not found at $ASDF_PATH — was it installed via Brewfile?"
+  fail "asdf not found in PATH — check Homebrew install or Brewfile"
 fi
 
 
