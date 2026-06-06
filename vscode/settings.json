@@ -9,10 +9,6 @@
   "terminal.integrated.fontSize": 13,
   "window.autoDetectColorScheme": false,
   "workbench.colorTheme": "Dark Modern",
-  "github-enterprise.uri": "https://mercedes-benz.ghe.com/",
-  "github.copilot.advanced": {
-    "authProvider": "github-enterprise"
-  },
   "git.autofetch": true,
   "git.confirmSync": false,
   "gitlens.ai.model": "vscode",
